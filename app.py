@@ -1,5 +1,5 @@
-from itertools import count
 import os ;
+import csv ;
 import json
 from typing import Counter ; 
 import requests;
@@ -20,8 +20,13 @@ def getProductsFromCollection(collectionID):
     resdata = res.json()
     idList = []
     for i in resdata["products"]:
+        print("\n",i,"\n")
         idList.append(i["id"])
 
     return idList 
 
 print(getProductsFromCollection(1))
+
+
+
+
