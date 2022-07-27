@@ -9,13 +9,13 @@ from dotenv import load_dotenv ;
 #then it will get the 
 
 load_dotenv()
-#GLOBALS
+#GLOBALS make this and interface class at some point
 key = os.getenv("SECRET_TOKEN")
 URLForCollection = "https://sams-test-store-app.myshopify.com/admin/api/2022-10/collections/291616489658/products.json?"
 H = {"X-Shopify-Access-Token":key}
 
 def getProductsFromCollection(collectionID):
-    URLForCollection = "https://sams-test-store-app.myshopify.com/admin/api/2022-10/collections/291616489658/products.json?" #TODO eventually add collection ID
+    URLForCollection = "https://sams-test-store-app.myshopify.com/admin/api/2022-10/collections/"+str(collectionID)+"/products.json?" #TODO eventually add collection ID
     res = requests.get(URLForCollection,headers=H)
     resdata = res.json()
     idList = []
@@ -25,7 +25,7 @@ def getProductsFromCollection(collectionID):
 
     return idList 
 
-print(getProductsFromCollection(1))
+print(getProductsFromCollection(291616489658))
 
 
 
