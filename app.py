@@ -23,9 +23,18 @@ def getProductsFromCollection(collectionID):
         print("\n",i,"\n")
         idList.append(i["id"])
 
-    return idList 
+    return idList
+
+def getSKU_Inventory(idList):
+    URLForCollection = "https://sams-test-store-app.myshopify.com/admin/api/2022-10/products/7152450109626/variants.json"
+    res = requests.get(URLForCollection,headers=H)
+    resdata = res.json()
+    print()
+    print(resdata["variants"])
+    return 0
 
 print(getProductsFromCollection(291616489658))
+print(getSKU_Inventory(1))
 
 
 
