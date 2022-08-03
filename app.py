@@ -4,6 +4,7 @@ import json
 from typing import Counter ; 
 import requests;
 from dotenv import load_dotenv ;
+import time ;
 
 #currently it takes all the products in a collection and gets the ID for them
 #then it will get the 
@@ -20,21 +21,33 @@ def getProductsFromCollection(collectionID):
     resdata = res.json()
     idList = []
     for i in resdata["products"]:
-        print("\n",i,"\n")
         idList.append(i["id"])
 
     return idList
 
+#TODO the first item returned in inventory list has no sku?
 def getSKU_Inventory(idList):
-    URLForCollection = "https://sams-test-store-app.myshopify.com/admin/api/2022-10/products/7152450109626/variants.json"
-    res = requests.get(URLForCollection,headers=H)
-    resdata = res.json()
-    print()
-    print(resdata["variants"])
-    return 0
+    inventorylist = []
+    counter = 0
+    for id in idList:
+        URLForCollection = "https://sams-test-store-app.myshopify.com/admin/api/2022-10/products/"+str(id)+"/variants.json"
+        res = requests.get(URLForCollection,headers=H)
+        resdata = res.json()
+        time.sleep(1)
+        counter += 1
+        for item in resdata["variants"]:
+            print("SKU: ",item['sku'],"\n")
+            print(item['inventory_item_id']," quant:",item['inventory_quantity'],"\n-------------------")
+            inventorylist.append([item["sku"],item["inventory_item_id"]])
+    
+    
+    
+    return inventorylist
 
-print(getProductsFromCollection(291616489658))
-print(getSKU_Inventory(1))
+idlist=getProductsFromCollection(291616489658)
+framesList = getSKU_Inventory(idlist)
+for i in framesList:
+    print(i)
 
 
 
